@@ -3,8 +3,8 @@ LDFLAGS=-lncurses
 
 all: a
 
-a: a.o
-	$(CC) a.o -o a $(LDFLAGS)
+a: main.o
+	$(CC) main.o -o a $(LDFLAGS)
 
 clean:
 	rm *o
