@@ -77,7 +77,6 @@ void cleanupEverything(WINDOW *mainwin){
 
 gameTuple initGame(){
 	gameTuple gt;
-
 	gt.level = 1;
 	return gt;
 }
