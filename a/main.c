@@ -10,20 +10,21 @@ int main(void){
 	int windowWidth;
 	int windowHeight;
 	int response;
-	screenTuple screenSize;
-	gameTuple gameEnv;
+	struct screenInfo screenSize = {0,0};
+	struct gameInfo gameEnv = {0};
 
-	screenSize = setupEverything(mainwin);
-	gameEnv = initGame();
+	setupEverything(mainwin, &screenSize);
+	initGame(&gameEnv);
 
+	printf("About to call screenSize->h\n\n");
 	mvaddstr(screenSize.h - 10, 3, "Press ENTER to play.");
 	refresh();
 
 	while (1){
 		response = getch();
 		if (response == '\n'){
-			//resetGame(gameStats);
-			playGame(mainwin, gameEnv);
+			resetGame(&gameEnv);
+			playGame(mainwin, &gameEnv);
 			mvaddstr(10,10, "boom!");
 			refresh();
 			//break;
@@ -35,13 +36,12 @@ int main(void){
 	return EXIT_SUCCESS;
 }
 
-void playGame(WINDOW *mainwin, gameTuple gameEnv){
+void playGame(WINDOW * mainwin, struct gameInfo * gameEnv){
 
-	
 	//drawMap(10,10);
 
 	char buf[100];
-	sprintf(buf, "Hello, world %d.", gameEnv.level);
+	sprintf(buf, "Hello, world %d.", gameEnv->level);
 	mvaddstr(13, 33, buf);
 	//while (1){
 		//get the key pressed
@@ -53,20 +53,15 @@ void playGame(WINDOW *mainwin, gameTuple gameEnv){
 	sleep(3);
 }
 
-screenTuple setupEverything(WINDOW *mainwin){
-	int screenWidth;
-	int screenHeight;
-	screenTuple screenSize;
-
+void setupEverything(WINDOW *mainwin, struct screenInfo *screenSize){
 	if ( (mainwin = initscr()) == NULL ) {
 		fprintf(stderr, "Error initialising ncurses.\n");
 		exit(EXIT_FAILURE);
 	}
 	curs_set(0);
 	noecho();
-	screenSize.w = getmaxx(mainwin);
-	screenSize.h = getmaxy(mainwin);
-	return screenSize;
+	screenSize->w = getmaxx(mainwin);
+	screenSize->h = getmaxy(mainwin);
 }
 
 void cleanupEverything(WINDOW *mainwin){
@@ -75,8 +70,10 @@ void cleanupEverything(WINDOW *mainwin){
 	refresh();
 }
 
-gameTuple initGame(){
-	gameTuple gt;
-	gt.level = 1;
-	return gt;
+void initGame(struct gameInfo *gameEnv){
+	gameEnv->level = 1;
+}
+
+void resetGame(struct gameInfo *gameEnv){
+	gameEnv->level = 1;
 }

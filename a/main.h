@@ -1,15 +1,17 @@
 
-typedef struct {
+struct screenInfo {
 	int w;
 	int h;
-} screenTuple;
+};
 
-typedef struct {
+struct gameInfo {
 	int level;
-} gameTuple;
+};
+
 
 void cleanupEverything(WINDOW *mainwin);
-screenTuple setupEverything(WINDOW *mainwin);
-void playGame(WINDOW *mainwin, gameTuple gameEnv);
-gameTuple initGame();
+void setupEverything(WINDOW *mainwin, struct screenInfo *screenSize);
+void playGame(WINDOW *mainwin, struct gameInfo *gameEnv);
+void initGame(struct gameInfo *gameEnv);
+void resetGame(struct gameInfo *gameEnv);
 
