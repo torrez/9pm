@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <curses.h>
 #include "main.h"
+#include "map.h"
+
 
 int main(void){
 
@@ -10,13 +12,12 @@ int main(void){
 	int windowWidth;
 	int windowHeight;
 	int response;
-	struct screenInfo screenSize = {0,0};
-	struct gameInfo gameEnv = {0};
+	struct screenInfo screenSize = {.w = 0,.h = 0};
+	struct gameInfo gameEnv = {.level = 0, .map = {0}};
 
 	setupEverything(mainwin, &screenSize);
 	initGame(&gameEnv);
 
-	printf("About to call screenSize->h\n\n");
 	mvaddstr(screenSize.h - 10, 3, "Press ENTER to play.");
 	refresh();
 
@@ -25,7 +26,6 @@ int main(void){
 		if (response == '\n'){
 			resetGame(&gameEnv);
 			playGame(mainwin, &gameEnv);
-			mvaddstr(10,10, "boom!");
 			refresh();
 			//break;
 		}
@@ -37,20 +37,17 @@ int main(void){
 }
 
 void playGame(WINDOW * mainwin, struct gameInfo * gameEnv){
+	int response = 0;
 
-	//drawMap(10,10);
 
-	char buf[100];
-	sprintf(buf, "Hello, world %d.", gameEnv->level);
-	mvaddstr(13, 33, buf);
-	//while (1){
+	while (1){
+		response = getch();
 		//get the key pressed
 		//do something with it
 		//if key == quit, or do something == end game
 		//break;
 		refresh();
-	//}
-	sleep(3);
+	}
 }
 
 void setupEverything(WINDOW *mainwin, struct screenInfo *screenSize){
@@ -76,4 +73,12 @@ void initGame(struct gameInfo *gameEnv){
 
 void resetGame(struct gameInfo *gameEnv){
 	gameEnv->level = 1;
+	//generate levels
+	//for each level generate a map
+	//assign the first map to gameenv
+	
+	int newMap[MAP_HEIGHT][MAP_WIDTH] = {{0,0}};
+	createMap(newMap);
+	int x;
+	int y;
 }

@@ -1,3 +1,7 @@
+#include <curses.h>
+
+#define MAP_WIDTH 10
+#define MAP_HEIGHT 10
 
 struct screenInfo {
 	int w;
@@ -6,6 +10,7 @@ struct screenInfo {
 
 struct gameInfo {
 	int level;
+	int map[MAP_WIDTH][MAP_HEIGHT];
 };
 
 
